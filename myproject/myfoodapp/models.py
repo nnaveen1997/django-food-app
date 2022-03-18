@@ -9,6 +9,9 @@ class Kid(models.Model):
     parent_phone = models.CharField(max_length=122)
     parent_email = models.EmailField(max_length=122)
 
+    def __str__(self):
+        return self.id + self.name
+
 class Image(models.Model):
     kid_id = models.ForeignKey(Kid, on_delete=models.DO_NOTHING)
     img_url = models.CharField(max_length=255)
