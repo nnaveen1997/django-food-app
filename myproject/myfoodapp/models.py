@@ -20,3 +20,6 @@ class Image(models.Model):
     is_approved = models.BooleanField()
     approved_by = models.CharField(max_length=122)
     food_group = models.CharField(max_length=122)
+
+    def __str__(self):
+        return self.kid_id + self.img_url[:10]
