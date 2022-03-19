@@ -1,7 +1,11 @@
 from django.db import models
 from datetime import datetime
+from django.conf import settings
+from django.core.mail import send_mail
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
-from django.forms import Widget
+
 
 # Create your models here.
 class Kid(models.Model):
@@ -12,7 +16,7 @@ class Kid(models.Model):
     parent_email = models.EmailField(max_length=122)
 
     def __str__(self):
-        return self.name
+        return str(self.id) + '-' + self.name
 
 class Image(models.Model):
     kid_id = models.ForeignKey(Kid, on_delete=models.DO_NOTHING)
@@ -41,3 +45,12 @@ class Image(models.Model):
 
     def __str__(self):
         return str(self.kid_id) + ' - ' +str(self.img_url)
+
+@receiver(post_save, sender=Image)
+def send_mail_on_unknown(sender, instance, **kwargs):
+        if instance.food_group == 'UNKNOWN':
+            subject = "Image uploaded doesn't contain food"
+            message = f"The image uploaded for {instance.kid_id.name} doesn't contain food. Please verify with your child."
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [instance.kid_id.parent_email, ]
+            send_mail(subject, message, email_from, recipient_list)
