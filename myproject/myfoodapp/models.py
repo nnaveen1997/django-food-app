@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import datetime
 
+from django.forms import Widget
+
 # Create your models here.
 class Kid(models.Model):
     id = models.AutoField(primary_key=True)
@@ -19,7 +21,23 @@ class Image(models.Model):
     updated_on = datetime.now()
     is_approved = models.BooleanField()
     approved_by = models.CharField(max_length=122)
-    food_group = models.CharField(max_length=122)
+
+    FRUIT = 'FRUIT'
+    VEGETABLE = 'VEGETABLE'
+    GRAIN = 'GRAIN'
+    PROTEIN = 'PROTEIN'
+    DAIRY = 'DAIRY'
+    UNKNOWN = 'UNKNOWN'
+    FOOD_CHOICES = [
+        (FRUIT, 'Fruit'),
+        (VEGETABLE, 'Vegetable'),
+        (GRAIN, 'Grain'),
+        (PROTEIN, 'Protein'),
+        (DAIRY, 'Dairy'),
+        (UNKNOWN, 'Unknown')
+    ]
+
+    food_group = models.CharField(max_length=20, choices=FOOD_CHOICES, default=UNKNOWN)
 
     def __str__(self):
-        return str(self.kid_id)
+        return str(self.kid_id) + ' - ' +str(self.img_url)
