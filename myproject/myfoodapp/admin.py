@@ -10,6 +10,6 @@ class GalleryAdmin(admin.ModelAdmin):
         return format_html('<img src="{}" width="auto" height="200px" />'.format(obj.img_url.url))
 
     image_tag.short_description = 'Image Preview'
-    readonly_fields = ['image_tag']
+    readonly_fields = ['image_tag', 'updated_on', 'approved_by']
 
 admin.site.register(Image, GalleryAdmin)
