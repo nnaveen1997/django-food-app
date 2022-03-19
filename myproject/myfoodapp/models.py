@@ -1,5 +1,5 @@
-from statistics import mode
 from django.db import models
+from datetime import datetime
 
 # Create your models here.
 class Kid(models.Model):
@@ -10,16 +10,16 @@ class Kid(models.Model):
     parent_email = models.EmailField(max_length=122)
 
     def __str__(self):
-        return self.id + self.name
+        return self.name
 
 class Image(models.Model):
     kid_id = models.ForeignKey(Kid, on_delete=models.DO_NOTHING)
-    img_url = models.CharField(max_length=255)
-    created_on = models.DateField()
-    updated_on = models.DateField()
+    img_url = models.ImageField()
+    created_on = models.DateTimeField()
+    updated_on = datetime.now()
     is_approved = models.BooleanField()
     approved_by = models.CharField(max_length=122)
     food_group = models.CharField(max_length=122)
 
     def __str__(self):
-        return self.kid_id + self.img_url[:10]
+        return str(self.kid_id)
