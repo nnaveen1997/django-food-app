@@ -22,7 +22,7 @@ class Image(models.Model):
     kid_id = models.ForeignKey(Kid, on_delete=models.DO_NOTHING)
     img_url = models.ImageField()
     created_on = models.DateTimeField()
-    updated_on = datetime.now()
+    updated_on = models.DateTimeField(auto_now=True)
     is_approved = models.BooleanField()
     approved_by = models.CharField(max_length=122)
 
